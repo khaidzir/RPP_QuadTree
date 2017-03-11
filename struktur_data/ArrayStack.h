@@ -14,7 +14,7 @@ class ArrayStack
         void push(int e);
         int top();
         void pop();
-        bool isEmpty();
+        bool empty();
         int getSize();
         int getMaxSize();
     protected:

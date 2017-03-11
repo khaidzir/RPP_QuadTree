@@ -2,11 +2,11 @@
 #include <cstdlib>
 #include <stack>
 #include <iostream>
+#include <vector>
 using namespace std;
 
-#include "QNode.h"
-#include "QTree.h"
-#include "ArrayStack.h"
+#include "struktur_data/QTree.h"
+#include "struktur_data/ArrayStack.h"
 
 vector<int> findPath(int * arrayNode, int start, int end, int size);
 
@@ -56,7 +56,7 @@ vector<int> findPath(int * arrayNode, int start, int end, int size) {
 
     bool flag[size];
     for(int i=0; i<size; i++) flag[i] = false;
-    stack<int> pathStack, globalStack;
+    ArrayStack pathStack(size), globalStack(size);
     flag[startidx] = true;
     int idx;
     for(int i=startidx+1; i<=startidx+4; i++) {

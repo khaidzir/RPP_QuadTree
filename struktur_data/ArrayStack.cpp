@@ -1,28 +1,37 @@
+#include <cstdlib>
 #include "ArrayStack.h"
 
-ArrayStack::ArrayStack(int msize)
-{
+ArrayStack::ArrayStack(int msize) {
     //ctor
     this->maxSize = msize;
     arrStack = new int[maxSize];
     idx = -1;
 }
 
-ArrayStack::~ArrayStack()
-{
+ArrayStack::~ArrayStack() {
     //dtor
     delete [] arrStack;
 }
 
-ArrayStack::ArrayStack(const ArrayStack& other)
-{
+ArrayStack::ArrayStack(const ArrayStack& other) {
     //copy ctor
+    maxSize = other.maxSize;
+    idx = other.idx;
+    if (arrStack != NULL) delete [] arrStack;
+    arrStack = new int[maxSize];
+    for(int i=0; i<=idx; i++) {
+        arrStack[i] = other.arrStack[i];
+    }
 }
 
-ArrayStack& ArrayStack::operator=(const ArrayStack& rhs)
-{
-    if (this == &rhs) return *this; // handle self assignment
-    //assignment operator
+ArrayStack& ArrayStack::operator=(const ArrayStack& other) {
+    maxSize = other.maxSize;
+    idx = other.idx;
+    if (arrStack != NULL) delete [] arrStack;
+    arrStack = new int[maxSize];
+    for(int i=0; i<=idx; i++) {
+        arrStack[i] = other.arrStack[i];
+    }
     return *this;
 }
 
@@ -43,7 +52,7 @@ void ArrayStack::pop() {
     }
 }
 
-bool ArrayStack::isEmpty() {
+bool ArrayStack::empty() {
     return idx < 0;
 }
 

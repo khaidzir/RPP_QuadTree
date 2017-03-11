@@ -1,1 +1,1 @@
-g++ -o main main.cpp QTree.cpp QNode.cpp -std=c++11
+g++ -o main main.cpp struktur_data/QTree.cpp struktur_data/ArrayStack.cpp -std=c++11
