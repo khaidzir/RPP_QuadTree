@@ -1,5 +1,6 @@
 #include "GeoMap.h"
 #include "ArrayStack.h"
+#include <fstream>
 #include <iostream>
 using namespace std;
 
@@ -8,15 +9,71 @@ GeoMap::GeoMap() {
 }
 
 GeoMap::~GeoMap() {
-
+    for(int i=0; i<edgeNum; i++) {
+        delete [] edgeNames[i];
+    }
+    delete [] edgeNames;
 }
 
 GeoMap::GeoMap(const GeoMap& other) {
     this->qGraph = other.qGraph;
 }
 
-void GeoMap::setQGraph(QGraph qGraph) {
+void GeoMap::setQGraph(QGraph& qGraph) {
     this->qGraph = qGraph;
+}
+
+void GeoMap::setNodeNames(ListVocab* lv) {
+    this->nodeNames = lv;
+}
+
+QGraph& GeoMap::getQGraph() {
+    return qGraph;
+}
+
+ListVocab* GeoMap::getNodeNames() {
+    return nodeNames;
+}
+
+char* GeoMap::getStreetName(int id) {
+    return edgeNames[id-1];
+}
+
+int GeoMap::getStreetNum() {
+    return edgeNum;
+}
+
+void GeoMap::loadStreetNames() {
+    ifstream in("data/plain/edge_name.txt");
+    if (!in) {
+        return;
+    }
+
+    in >> edgeNum;
+    
+    edgeNames = new char*[edgeNum];
+
+    string str;
+    int id=0, i;
+    while(getline(in, str)) {
+        if (str.length() > 0) {
+            edgeNames[id] = new char[str.length()+1];
+            for(i=0; i<str.length(); i++) {
+                edgeNames[id][i] = str[i];
+            }
+            edgeNames[id][i] = '\0';
+            id++;
+        }
+    }
+
+    in.close();
+}
+
+int GeoMap::getNodeId(const char* nodename) {
+    char* chid = nodeNames->searchWord(nodename);
+    int id = ( (chid[0]<<24) | (chid[1]<<16) | (chid[2]<<8)
+            | chid[3] );
+    return id;
 }
 
 int* GeoMap::findPath(int start, int end, int * size) {

@@ -48,7 +48,7 @@ int* QGraph::getArrayNode() {
 
 void QGraph::readPlainText() {
     FILE * pFile;
-    pFile = fopen("data/plain/dataplain.txt", "r");
+    pFile = fopen("data/plain/qgraph.txt", "r");
     int size, node;
     fscanf(pFile, "%d", &size);
 
@@ -79,7 +79,7 @@ void QGraph::readBinary() {
     FILE *pFile;
     long filelen;
 
-    pFile = fopen("data/bin/data.bin", "rb");
+    pFile = fopen("data/bin/qgraph.bin", "rb");
     fseek(pFile, 0, SEEK_END);
     filelen = ftell(pFile);
     rewind(pFile);
@@ -96,7 +96,7 @@ void QGraph::readBinary() {
 
 void QGraph::saveToBinary() {
     FILE * pFile;
-    pFile = fopen("data/bin/data.bin", "wb");
+    pFile = fopen("data/bin/qgraph.bin", "wb");
 
     if (arrayNode == NULL) return;
     int arraytemp[arraySize];

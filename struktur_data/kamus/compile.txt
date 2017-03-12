@@ -1,0 +1,3 @@
+g++ -o main main.cpp Dictionary.cpp ListVocab.cpp VNode.cpp -std=c++11
+
+g++ -o main main.cpp ListVocab.cpp VNode.cpp -std=c++11
