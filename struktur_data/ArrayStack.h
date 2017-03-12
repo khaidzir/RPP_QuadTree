@@ -17,6 +17,8 @@ class ArrayStack
         bool empty();
         int getSize();
         int getMaxSize();
+        int getItem(int idx);
+        bool isExist(int e);
     protected:
 
     private:

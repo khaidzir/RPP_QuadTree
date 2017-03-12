@@ -1,5 +1,4 @@
 #include "FrameBuffer.h"
-#include <string.h>
 #include <cmath>
 
 // inisialisasi awal framebuffer dengan membuka device framebuffer pada
@@ -160,4 +159,18 @@ void FrameBuffer::drawCircle(int xm, int ym, int r, unsigned int color)
       if (r <= y) err += ++y*2+1;           /* e_xy+e_y < 0 */
       if (r > x || err > y) err += ++x*2+1; /* e_xy+e_x > 0 or no 2nd y-step */
    } while (x < 0);
+}
+
+// menggambar persegi berwarna dengan jari2 r+0.5 (sisi = 2r+1)
+void FrameBuffer::drawFilledSquare(Point center, int r, unsigned int color) {
+	int x = center.getX()-r;
+	int y = center.getY()-r;
+	int size = r*2+1;
+	for(int i=0; i<size; i++) {
+		for(int j=0; j<size; j++) {
+			if ( (x+i) >=0 && (x+i) < width && (y+j) >= 0 && (y+j) < height ) {
+				putPixel(x+i, y+j, color);
+			}
+		}
+	}
 }

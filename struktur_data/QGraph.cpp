@@ -1,32 +1,32 @@
-#include "QTree.h"
+#include "QGraph.h"
 #include <cstdlib>
 #include <cstdio>
 #include <iostream>
 using namespace std;
 
-QTree::QTree() {
+QGraph::QGraph() {
     //ctor
     arraySize = 0;
     arrayNode = NULL;
 }
 
-QTree::~QTree() {
+QGraph::~QGraph() {
     //dtor
     delete [] arrayNode;
 }
 
-QTree::QTree(const QTree& other) {
+QGraph::QGraph(const QGraph& other) {
     arraySize = other.arraySize;
-    if (arrayNode != NULL) delete [] arrayNode;
+    // if (arrayNode != NULL) delete [] arrayNode;
     arrayNode = new int[arraySize];
     for(int i=0; i<arraySize; i++) {
         arrayNode[i] = other.arrayNode[i];
     }
 }
 
-QTree& QTree::operator=(const QTree& other) {
+QGraph& QGraph::operator=(const QGraph& other) {
     arraySize = other.arraySize;
-    if (arrayNode != NULL) delete [] arrayNode;
+    // if (arrayNode != NULL) delete [] arrayNode;
     arrayNode = new int[arraySize];
     for(int i=0; i<arraySize; i++) {
         arrayNode[i] = other.arrayNode[i];
@@ -34,9 +34,21 @@ QTree& QTree::operator=(const QTree& other) {
     return *this;
 }
 
-void QTree::readPlainText() {
+int QGraph::getArraySize() {
+    return arraySize;
+}
+
+int QGraph::getVertexSize() {
+    return arraySize/5;
+}
+
+int* QGraph::getArrayNode() {
+    return arrayNode;
+}
+
+void QGraph::readPlainText() {
     FILE * pFile;
-    pFile = fopen("data/dataplain.txt", "r");
+    pFile = fopen("data/plain/dataplain.txt", "r");
     int size, node;
     fscanf(pFile, "%d", &size);
 
@@ -62,12 +74,12 @@ void QTree::readPlainText() {
     fclose(pFile);
 }
 
-void QTree::readBinary() {
+void QGraph::readBinary() {
     // Baca binary file
     FILE *pFile;
     long filelen;
 
-    pFile = fopen("data/data.bin", "rb");
+    pFile = fopen("data/bin/data.bin", "rb");
     fseek(pFile, 0, SEEK_END);
     filelen = ftell(pFile);
     rewind(pFile);
@@ -82,9 +94,9 @@ void QTree::readBinary() {
     }
 }
 
-void QTree::saveToBinary() {
+void QGraph::saveToBinary() {
     FILE * pFile;
-    pFile = fopen("data/data.bin", "wb");
+    pFile = fopen("data/bin/data.bin", "wb");
 
     if (arrayNode == NULL) return;
     int arraytemp[arraySize];

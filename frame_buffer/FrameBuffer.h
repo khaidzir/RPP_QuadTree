@@ -12,7 +12,8 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include "Point.h"
+#include <string.h>
+#include "../struktur_data/Point.h"
 using namespace std;
 
 class FrameBuffer{
@@ -41,5 +42,6 @@ class FrameBuffer{
 		int getWidth();
 		int getHeight();
 		void drawCircle(int xm, int ym, int r, unsigned int color);
+		void drawFilledSquare(Point center, int r, unsigned int color);
 };
 #endif

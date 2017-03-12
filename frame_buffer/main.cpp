@@ -78,10 +78,10 @@ int main() {
 		fb.drawLine(p1,p2,0xFF00FFFF);
 		fb.drawLine(p1,p3,0xFFFFFF00);
 		fb.drawLine(p2,p3,0xFFFFFFFF);
-		drawSquare(&fb, p0, r, 0xFFFF0000);
-		drawSquare(&fb, p1, r, 0xFF00FF00);
-		drawSquare(&fb, p2, r, 0xFF0000FF);
-		drawSquare(&fb, p3, r, 0xFFFFFFFF);
+		fb.drawSquare(p0, r, 0xFFFF0000);
+		fb.drawSquare(p1, r, 0xFF00FF00);
+		fb.drawSquare(p2, r, 0xFF0000FF);
+		fb.drawSquare(p3, r, 0xFFFFFFFF);
 		
 		
 		// Gambar semua

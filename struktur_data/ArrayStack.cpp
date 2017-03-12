@@ -64,3 +64,15 @@ int ArrayStack::getSize() {
 int ArrayStack::getMaxSize() {
     return maxSize;
 }
+
+int ArrayStack::getItem(int idx) {
+    return arrStack[idx];
+}
+
+bool ArrayStack::isExist(int e) {
+    bool found=false;
+    for(int i=0; i<=idx&&!found; i++) {
+        found = arrStack[i] == e;
+    }
+    return found;
+}
