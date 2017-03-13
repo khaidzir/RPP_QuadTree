@@ -86,7 +86,7 @@ int* GeoMap::findPath(int start, int end, int * size) {
     bool cekstart=false, cekend=false;
     int startidx;
 
-    for(int i=0; ( (i<narr) && !(cekstart && cekend) ); i+=5) {
+    for(int i=0; ( (i<narr) && !(cekstart && cekend) ); i+=9) {
         if (start == arrayNode[i]) {
             cekstart=true;
             startidx = i;
@@ -117,7 +117,7 @@ int* GeoMap::findPath(int start, int end, int * size) {
     // yang tidak buntu
     int idx, counter=0;
     bool buntu;
-    for(int i=startidx+1; i<=startidx+4; i++) {
+    for(int i=startidx+1; i<=startidx+8; i+=2) {
         idx = arrayNode[i];
 
         // Memiliki tetangga
@@ -132,7 +132,7 @@ int* GeoMap::findPath(int start, int end, int * size) {
             } else {
                 // Cek apakah tetangga buntu
                 buntu = true;
-                for(int j=idx+1; j<=idx+4&&buntu; j++) {
+                for(int j=idx+1; j<=idx+8&&buntu; j+=2) {
                     if (arrayNode[j] != -1) {
                         buntu = false;
                     }
@@ -167,7 +167,7 @@ int* GeoMap::findPath(int start, int end, int * size) {
         // Cek apakah memiliki tetangga==end atau memiliki
         // tetangga tidak buntu
         counter = 0;
-        for(int i=idx+1; i<=idx+4; i++) {
+        for(int i=idx+1; i<=idx+8; i+=2) {
             addr = arrayNode[i];
 
             // Memiliki tetangga dan belum pernah dikunjungi
@@ -180,7 +180,7 @@ int* GeoMap::findPath(int start, int end, int * size) {
                 } else {
                     // Cek apakah tetangga buntu atau sudah dikunjungi
                     buntu = true;
-                    for(int j=addr+1; j<=addr+4&&buntu; j++) {
+                    for(int j=addr+1; j<=addr+8&&buntu; j+=2) {
                         buntu = arrayNode[j] == -1;
                     }
                     // Tetangga tidak buntu
@@ -231,7 +231,7 @@ void GeoMap::findAllPaths(int start, int end) {
     bool cekstart=false, cekend=false;
     int startidx;
 
-    for(int i=0; ( (i<narr) && !(cekstart && cekend) ); i+=5) {
+    for(int i=0; ( (i<narr) && !(cekstart && cekend) ); i+=9) {
         if (start == arrayNode[i]) {
             cekstart=true;
             startidx = i;
@@ -257,7 +257,7 @@ void GeoMap::findAllPaths(int start, int end) {
     // yang tidak buntu
     int idx, counter=0;
     bool buntu;
-    for(int i=startidx+1; i<=startidx+4; i++) {
+    for(int i=startidx+1; i<=startidx+8; i+=2) {
         idx = arrayNode[i];
 
         // Memiliki tetangga
@@ -268,7 +268,7 @@ void GeoMap::findAllPaths(int start, int end) {
             } else {
                 // Cek apakah tetangga buntu
                 buntu = true;
-                for(int j=idx+1; j<=idx+4&&buntu; j++) {
+                for(int j=idx+1; j<=idx+8&&buntu; j+=2) {
                     if (arrayNode[j] != -1) {
                         buntu = false;
                     }
@@ -300,7 +300,7 @@ void GeoMap::findAllPaths(int start, int end) {
         // Cek apakah memiliki tetangga==end atau memiliki
         // tetangga tidak buntu
         counter = 0;
-        for(int i=idx+1; i<=idx+4; i++) {
+        for(int i=idx+1; i<=idx+8; i+=2) {
             addr = arrayNode[i];
 
             // Memiliki tetangga dan belum ada dalam path
@@ -316,7 +316,7 @@ void GeoMap::findAllPaths(int start, int end) {
                 } else {
                     // Cek apakah tetangga buntu
                     buntu = true;
-                    for(int j=addr+1; j<=addr+4&&buntu; j++) {
+                    for(int j=addr+1; j<=addr+8&&buntu; j+=2) {
                         buntu = arrayNode[j] == -1;
                     }
                     // Tetangga tidak buntu

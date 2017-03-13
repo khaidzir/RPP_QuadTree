@@ -39,7 +39,7 @@ int QGraph::getArraySize() {
 }
 
 int QGraph::getVertexSize() {
-    return arraySize/5;
+    return arraySize/9;
 }
 
 int* QGraph::getArrayNode() {
@@ -49,22 +49,33 @@ int* QGraph::getArrayNode() {
 void QGraph::readPlainText() {
     FILE * pFile;
     pFile = fopen("data/plain/qgraph.txt", "r");
-    int size, node;
+    int size, node, edge;
     fscanf(pFile, "%d", &size);
 
-    arraySize = size*5;
+    arraySize = size*9;
     arrayNode = new int[arraySize];
     int counter = 1;
     for(int i=0; i<arraySize; i++) {
         arrayNode[i] = counter;
         i++;
         for(int j=0; j<4; j++) {
+            // Node
             fscanf(pFile, "%d", &node);
             if (node != 0) {
-                arrayNode[i] = (node-1)*5;
+                arrayNode[i] = (node-1)*9;
             } else {
                 arrayNode[i] = -1;
             }
+            i++;
+
+            // Edge
+            fscanf(pFile, "%d", &edge);
+            arrayNode[i] = edge-1;
+            // if (edge != 0) {
+            //     arrayNode[i] = edge-1;
+            // } else {
+            //     arrayNode[i] = -1;
+            // }
             i++;
         }
         i--;
@@ -90,7 +101,8 @@ void QGraph::readBinary() {
 
     arraySize = filelen/4;
     for(int i=0; i<arraySize; i++) {
-        if (i%5 != 0 && arrayNode[i] != -1) arrayNode[i] /= 4;
+        if (i%9 != 0 && arrayNode[i] != -1
+            && i%2==1) arrayNode[i] /= 4;
     }
 }
 
@@ -98,13 +110,22 @@ void QGraph::saveToBinary() {
     FILE * pFile;
     pFile = fopen("data/bin/qgraph.bin", "wb");
 
-    if (arrayNode == NULL) return;
+    if (arrayNode == NULL) {
+        fclose(pFile);
+        return;
+    }
+
     int arraytemp[arraySize];
     for(int i=0; i<arraySize; i++) {
-        if (i%5 != 0) {
+        if (i%9 != 0) {
             if (arrayNode[i] != -1) {
-                arraytemp[i] = 4*arrayNode[i];
-            } else { arraytemp[i] = arrayNode[i];
+                if (i%2 == 1) {     // Alamat node
+                    arraytemp[i] = 4*arrayNode[i];
+                } else {        // Alamat edge
+                    arraytemp[i] = arrayNode[i];
+                }
+            } else { 
+                arraytemp[i] = arrayNode[i];
             }
         } else arraytemp[i] = arrayNode[i];
     }

@@ -65,7 +65,12 @@ void coba1() {
     while(idstart != -1 && idend != -1) {
         int size;
         gm.findAllPaths(idstart, idend);
-        cout << endl << endl;
+        // int * path = gm.findPath(idstart, idend, &size);
+        // cout << "Path : ";
+        // for(int i=0; i<size; i++) {
+        //     cout << path[i] << " ";
+        // }
+        // cout << endl << endl;
 
         // delete [] path;
 
