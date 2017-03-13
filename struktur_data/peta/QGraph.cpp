@@ -71,11 +71,6 @@ void QGraph::readPlainText() {
             // Edge
             fscanf(pFile, "%d", &edge);
             arrayNode[i] = edge-1;
-            // if (edge != 0) {
-            //     arrayNode[i] = edge-1;
-            // } else {
-            //     arrayNode[i] = -1;
-            // }
             i++;
         }
         i--;

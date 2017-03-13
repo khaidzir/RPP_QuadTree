@@ -26,6 +26,7 @@ class GeoMap {
 		int getNodeId(const char* nodename);
 		int* findPath(int start, int end, int * size);
 		void findAllPaths(int start, int end);
+		void findAllPaths(const char* startname, const char* endname);
 
 	private:
 		// string *nodeDesc;
@@ -33,6 +34,8 @@ class GeoMap {
 		ListVocab *nodeNames;
 		char ** edgeNames;
 		int edgeNum;
+
+		int getEdgeAddr(int idxstart, int idxend);
 };
 
 #endif

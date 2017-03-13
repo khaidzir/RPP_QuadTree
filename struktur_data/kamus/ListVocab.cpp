@@ -151,15 +151,15 @@ char* ListVocab::searchWord(const char* word) {
     int i=0;
     bool stop = false, found = false;
     while(!stop && !found) {
-        printf("%c : %c\n", word[i], temp->info);
-        if (word[i] < temp->info) {stop = true; printf("cek 1\n");}
+        // printf("%c : %c\n", word[i], temp->info);
+        if (word[i] < temp->info) {stop = true; /*printf("cek 1\n");*/}
         else if (word[i] > temp->info) {
-            if (temp->right == NULL) {stop = true; printf("cek 2\n");}
+            if (temp->right == NULL) {stop = true; /*printf("cek 2\n");*/}
             else temp = temp->right;
         } else {
             if (word[i] == '\0') found = true;
             else {
-                if (temp->left == NULL) {stop = true; printf("cek 3\n");}
+                if (temp->left == NULL) {stop = true; /*printf("cek 3\n");*/}
                 else {
                     temp = temp->left;
                     i++;
@@ -324,9 +324,9 @@ void ListVocab::loadKamus() {
             def[3] = (char)  (id&0x000000FF);
             addWord(str.c_str(), def);
             id++;
-            cout << str << " : ";
-            for(int i=0; i<4; i++) cout << (int)def[i] << " ";
-            cout << endl;
+            // cout << str << " : ";
+            // for(int i=0; i<4; i++) cout << (int)def[i] << " ";
+            // cout << endl;
         }
     }
 

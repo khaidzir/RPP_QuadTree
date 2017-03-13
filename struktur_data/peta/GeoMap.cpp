@@ -342,3 +342,153 @@ void GeoMap::findAllPaths(int start, int end) {
     }
 
 }
+
+void GeoMap::findAllPaths(const char* startname, const char* endname) {
+    int start = getNodeId(startname);
+    int end = getNodeId(endname);
+
+    if (start == -1 || end == -1) {
+        cout << "Nama tempat asal/tujuan tidak ada dalam peta saat ini\n";
+        return;
+    }
+
+    int* arrayNode = qGraph.getArrayNode();
+    int n = qGraph.getVertexSize();
+    int narr = qGraph.getArraySize();
+
+    // Cek apakah start & end ada dalam arrayNode
+    bool cekstart=false, cekend=false;
+    int startidx, endidx;
+
+    for(int i=0; ( (i<narr) && !(cekstart && cekend) ); i+=9) {
+        if (start == arrayNode[i]) {
+            cekstart=true;
+            startidx = i;
+        }
+        if (end == arrayNode[i]){ 
+            cekend = true;
+            endidx = i;
+        }
+    }
+
+    // Jika start atau end tidak ada dalam arrayNode
+    if ( !(cekstart && cekend) ) {
+        cout << "Tempat asal/tujuan tidak ada dalam graf\n";
+        return;
+    }
+
+    // Jika start == end
+    if (start == end) {
+        cout << startname << endl;
+        return;
+    }
+
+    ArrayStack pathStack(n), prevStack(n), globalStack(n);
+
+    // Cek apakah memiliki tetangga tujuan atau tetangga
+    // yang tidak buntu
+    int idx, counter=0;
+    bool buntu;
+    for(int i=startidx+1; i<=startidx+8; i+=2) {
+        idx = arrayNode[i];
+
+        // Memiliki tetangga
+        if (idx != -1) {
+            // Tetangga merupakan tujuan
+            if (arrayNode[idx] == end) {
+                cout << startname << " -> " << edgeNames[arrayNode[i+1]]
+                 << " -> " << endname << endl;
+            } else {
+                // Cek apakah tetangga buntu
+                buntu = true;
+                for(int j=idx+1; j<=idx+8&&buntu; j+=2) {
+                    if (arrayNode[j] != -1) {
+                        buntu = false;
+                    }
+                }
+                // Tetangga tidak buntu
+                if (!buntu) {
+                    counter++;
+                    prevStack.push(startidx);
+                    globalStack.push(idx);
+                }
+            }
+        }
+    }
+
+    if (counter == 0) {
+        return;
+    } else {
+        pathStack.push(startidx);
+    }
+
+    int node, prevIdx, addr;
+    while(!globalStack.empty()) {
+        // cout << globalStack.top() << endl;
+        idx = globalStack.top();
+        globalStack.pop();
+        node = arrayNode[idx];
+        prevIdx = prevStack.top();
+        prevStack.pop();
+
+        // Cek apakah memiliki tetangga==end atau memiliki
+        // tetangga tidak buntu
+        counter = 0;
+        for(int i=idx+1; i<=idx+8; i+=2) {
+            addr = arrayNode[i];
+
+            // Memiliki tetangga dan belum ada dalam path
+            if (addr != -1 && !pathStack.isExist(addr)
+                && arrayNode[addr] != start) {
+                // Tetangga merupakan tujuan
+                if (arrayNode[addr] == end) {
+                    cout << startname << " -> ";
+                    int j;
+                    for(j=0; j<pathStack.getSize()-1; j++) {
+                        char *coba = edgeNames[getEdgeAddr(pathStack.getItem(j), 
+                            pathStack.getItem(j+1))];
+                        cout <<  coba << " -> ";
+                    }
+                    cout << edgeNames[getEdgeAddr(pathStack.getItem(j), 
+                            idx)] << " -> " << 
+                            edgeNames[getEdgeAddr(idx,endidx)] << 
+                            " -> " << endname << endl;
+                } else {
+                    // Cek apakah tetangga buntu
+                    buntu = true;
+                    for(int j=addr+1; j<=addr+8&&buntu; j+=2) {
+                        buntu = arrayNode[j] == -1;
+                    }
+                    // Tetangga tidak buntu
+                    if (!buntu) {
+                        counter++;
+                        prevStack.push(idx);
+                        globalStack.push(addr);
+                    }
+                }
+            }
+        }
+
+        if (counter > 0) pathStack.push(idx);
+        else {
+            while(prevStack.top() != pathStack.top()) {
+                pathStack.pop();
+            }            
+        }
+    }
+
+}
+
+int GeoMap::getEdgeAddr(int idxstart, int idxend) {
+    bool found=false;
+    int ret=-1;
+    int * arr = qGraph.getArrayNode();
+    for(int i=idxstart+1; i<=idxstart+8&&!found; i+=2) {
+        if(arr[i] == idxend) {
+            ret = arr[i+1];
+            found=true;
+        }
+    }
+    // cout << "("<<idxstart<<"," << idxend << ")";
+    return ret;
+}

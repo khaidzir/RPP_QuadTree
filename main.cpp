@@ -8,82 +8,91 @@ using namespace std;
 #include "struktur_data/peta/GeoMap.h"
 #include "struktur_data/kamus/ListVocab.h"
 
-void coba() {
-    QGraph qGraph;
-    qGraph.readPlainText();
-    qGraph.saveToBinary();
-    qGraph.readBinary();
+// Variabel global
+QGraph qGraph;
+ListVocab lv;
+GeoMap gm;
 
-    GeoMap gm;
-    gm.setQGraph(qGraph);
+void init();
+void showMenu();
+void run();
+void wrongChoice();
+void findAllPaths();
+void findAllPathsById();
+void printGraph();
+void exit();
 
-    int start, end;
-    cout << "Masukkan node start dan node end : ";
-    cin >> start >> end;
+int main() {
+    init();
+    run();
 
-    while(start != -1 && end != -1) {
-        int size;
-        // int * path = gm.findPath(start, end, &size);
-        // cout << "Path : ";
-        // for(int i=0; i<size; i++) {
-        //     cout << path[i] << " ";
-        // }
-        gm.findAllPaths(start, end);
-        cout << endl << endl;
-
-        // delete [] path;
-
-        cout << "Masukkan node start dan node end : ";
-        cin >> start >> end;
-    }
+    return 0;
 }
 
-void coba1() {
+void init() {
     // Load graf
-    QGraph qGraph;
     qGraph.readPlainText();
     qGraph.saveToBinary();
     qGraph.readBinary();
 
     // Load daftar nama node
-    ListVocab lv;
     lv.loadKamus();
 
-    // GeoMap
-    GeoMap gm;
+    // Inisialisasi GeoMap
     gm.setQGraph(qGraph);
     gm.setNodeNames(&lv);
     gm.loadStreetNames();
+}
 
+void showMenu() {
+    printf("[1] Cari semua jalur (nama)\n");
+    printf("[2] Cari semua jalur (id)\n");
+    printf("[3] Print graf\n");
+    printf("[4] Keluar\n");
+}
+
+void findAllPaths() {
     string start, end;
-    int idstart, idend;
-    cout << "Masukkan node start dan node end : ";    
-    cin >> start >> end; 
-    idstart = gm.getNodeId(start.c_str());
-    idend = gm.getNodeId(end.c_str());
+    cout << "Masukkan nama node start dan node end : ";    
+    cin >> start >> end;
+    gm.findAllPaths(start.c_str(), end.c_str());
+}
 
-    while(idstart != -1 && idend != -1) {
-        int size;
-        gm.findAllPaths(idstart, idend);
-        // int * path = gm.findPath(idstart, idend, &size);
-        // cout << "Path : ";
-        // for(int i=0; i<size; i++) {
-        //     cout << path[i] << " ";
-        // }
-        // cout << endl << endl;
+void findAllPathsById() {
+    int start, end;
+    cout << "Masukkan id node start dan node end : ";    
+    cin >> start >> end;
+    gm.findAllPaths(start, end);
+}
 
-        // delete [] path;
-
-        cout << "Masukkan node start dan node end : ";
-        cin >> start >> end;    
-        idstart = gm.getNodeId(start.c_str());
-        idend = gm.getNodeId(end.c_str());
+void printGraph() {
+    int * arr = qGraph.getArrayNode();
+    int size = qGraph.getArraySize();
+    for(int i=0; i<size; i++) {
+        cout << arr[i] << " ";
     }
+    cout << endl;
 }
 
-int main() {
-    coba1();
-
-    return 0;
+void wrongChoice() {
+    cout << "Pilihan salah!\n";
 }
 
+void run() {
+    int choice;
+    showMenu();
+    scanf("%d", &choice);
+    while(choice != 4) {
+        if (choice == 1) findAllPaths();
+        else if (choice == 2) findAllPathsById();
+        else if (choice == 3) printGraph();
+        else wrongChoice();
+        showMenu();
+        scanf("%d", &choice);
+    }
+    exit();
+}
+
+void exit() {
+
+}
